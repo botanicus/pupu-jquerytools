@@ -1,12 +1,25 @@
+# encoding: utf-8
+
 # dependencies of the pupu
+dependency :jquery
 
-# load javascripts
-javascript "jquerytools"
+File.join(File.dirname(__FILE__), "javascripts").tap do |path|
+  options = Dir["*.js"].map { |path| File.basename(path).sub(/\.js$/, "").to_sym }
+end
 
-# load stylesheets
+# pupu :jquerytools
+# pupu :jquerytools, plugins: [:expose, :overlay]
 
-# parameters of plugin
-# it will be blank in most cases
-#parameter :request, :optional => ["local", "ajax"] do |type|
-#  javascript "lib/autocompleter.#{type}"
-#end
+parameter(:plugins) do |array|
+  if array.nil?
+    raise ArgumentError,
+      "You have to specify which plugins from jQuery Tools you want to use!"
+  else
+    array.each do |plugin|
+      begin
+        javascript plugin
+      rescue Pupu::AssetNotFound
+      end
+    end
+  end
+end

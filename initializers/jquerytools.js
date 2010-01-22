@@ -1,3 +1,3 @@
-window.addEvent("domready", function() {
+$(document).ready(function() {
   // add your code here
 })

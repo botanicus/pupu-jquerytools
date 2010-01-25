@@ -9,7 +9,6 @@ end
 
 # pupu :jquerytools
 # pupu :jquerytools, plugins: [:expose, :overlay]
-
 parameter(:plugins) do |array|
   if array.nil?
     raise ArgumentError,
@@ -18,6 +17,7 @@ parameter(:plugins) do |array|
     array.each do |plugin|
       begin
         javascript plugin
+        stylesheet plugin
       rescue Pupu::AssetNotFound
       end
     end
